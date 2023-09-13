@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "andis2-api-cuentas", "andis2-api-cuentas.csproj", "{45D6E4F0-69C8-4F17-B2F4-4D9418CB75D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45D6E4F0-69C8-4F17-B2F4-4D9418CB75D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D6E4F0-69C8-4F17-B2F4-4D9418CB75D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D6E4F0-69C8-4F17-B2F4-4D9418CB75D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D6E4F0-69C8-4F17-B2F4-4D9418CB75D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCF64084-A38B-4C4F-A54F-9C8C4CDA0944}
+	EndGlobalSection
+EndGlobal
