@@ -1,0 +1,1 @@
+[{"accountNumber":2,"accountBalance":500,"accountName":"Pedro","ownerId":102,"permissions":["read"]},{"accountNumber":3,"accountBalance":2000,"accountName":"Luis","ownerId":101,"permissions":["read","write"]},{"accountNumber":5,"accountBalance":870,"accountName":"string","ownerId":0,"permissions":["string"]}]
