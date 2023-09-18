@@ -80,6 +80,20 @@ namespace andis2_api_cuentas.Controllers
             return NoContent();
         }
 
+        // PUT: api/Account/5/permissions
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPatch("{id}/permissions")]
+        public async Task<IActionResult> PutAccountPermissions(int id, string permissions)
+        {
+            var account = await _context.Account.FindAsync(id);
+            if (account == null) return NotFound();
+
+            account.permissions = permissions;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         // POST: api/Account
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
