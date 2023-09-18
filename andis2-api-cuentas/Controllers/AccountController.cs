@@ -49,34 +49,17 @@ namespace andis2_api_cuentas.Controllers
             return account;
         }
 
-        // PUT: api/Account/5
+        // PATCH: api/Account/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PutAccount(int id, string accountName)
         {
-            if (id != account.accountNumber)
-            {
-                return BadRequest();
-            }
+            Account? dbAccount = await _context.Account.FindAsync(id);
+            if (dbAccount == null) return BadRequest();
 
-            _context.Entry(account).State = EntityState.Modified;
+            dbAccount.accountName = accountName;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
