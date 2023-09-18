@@ -115,6 +115,43 @@ namespace andis2_api_cuentas.Controllers
             return NoContent();
         }
 
+        // PUT api/accounts/:id/deposit
+        // genera un endpoint para que un usuario pueda hacer depositos
+         [HttpPut("{id}/deposit")]
+        public async Task<IActionResult> PutDeposit(int id, Account account, int amount)
+        {
+            if (id != account.accountNumber)
+            {
+                return BadRequest();
+            }
+            if (amount < 0){
+                return BadRequest();
+            }
+            
+
+            _context.Entry(account).State = EntityState.Modified;
+
+            try
+            {
+                account.accountBalance += amount;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AccountExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+
+        }
+
         private bool AccountExists(int id)
         {
             return (_context.Account?.Any(e => e.accountNumber == id)).GetValueOrDefault();
