@@ -117,7 +117,7 @@ namespace andis2_api_cuentas.Controllers
 
         // PUT api/accounts/:id/deposit
         // genera un endpoint para que un usuario pueda hacer depositos
-         [HttpPut("{id}")]
+         [HttpPut("{id}/deposit")]
         public async Task<IActionResult> PutDeposit(int id, Account account, int amount)
         {
             if (id != account.accountNumber)
