@@ -1,1 +1,107 @@
-[{"accountNumber":2,"accountBalance":500,"accountName":"Pedro","ownerId":102,"permissions":["read"]},{"accountNumber":3,"accountBalance":2000,"accountName":"Luis","ownerId":101,"permissions":["read","write"]},{"accountNumber":5,"accountBalance":870,"accountName":"string","ownerId":0,"permissions":["string"]}]
+[
+  {
+    "accountNumber": 123456786,
+    "accountBalance": 20000,
+    "accountName": "cuenta de ahorro en pesos",
+    "ownerId": 6789,
+    "permissions": [ "totales" ]
+  },
+  {
+    "accountNumber": 123456787,
+    "accountBalance": 15000,
+    "accountName": "cuenta de ahorro en dolares",
+    "ownerId": 6789,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456788,
+    "accountBalance": 50000,
+    "accountName": "cuenta corriente en pesos",
+    "ownerId": 6789,
+    "permissions": [ "depositar" ]
+  },
+  {
+    "accountNumber": 123456789,
+    "accountBalance": 1000000,
+    "accountName": "cuenta corriente en dolares",
+    "ownerId": 6789,
+    "permissions": [ "totales" ]
+  },
+  {
+    "accountNumber": 123456790,
+    "accountBalance": 20000,
+    "accountName": "cuenta de ahorro en pesos",
+    "ownerId": 6788,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456791,
+    "accountBalance": 15000,
+    "accountName": "cuenta de ahorro en dolares",
+    "ownerId": 6788,
+    "permissions": [ "cosultar", "transferir" ]
+  },
+  {
+    "accountNumber": 123456792,
+    "accountBalance": 50000,
+    "accountName": "cuenta corriente en pesos",
+    "ownerId": 6788,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456793,
+    "accountBalance": 1000000,
+    "accountName": "cuenta corriente en dolares",
+    "ownerId": 6788,
+    "permissions": [ "totales" ]
+  },
+  {
+    "accountNumber": 123456794,
+    "accountBalance": 20033,
+    "accountName": "cuenta de ahorro en pesos",
+    "ownerId": 6787,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456795,
+    "accountBalance": 5000,
+    "accountName": "cuenta de ahorro en dolares",
+    "ownerId": 6787,
+    "permissions": [ "totales" ]
+  },
+  {
+    "accountNumber": 123456796,
+    "accountBalance": 50000,
+    "accountName": "cuenta corriente en pesos",
+    "ownerId": 6786,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456797,
+    "accountBalance": 1000000,
+    "accountName": "cuenta corriente en dolares",
+    "ownerId": 6785,
+    "permissions": [ "totales" ]
+  },
+  {
+    "accountNumber": 123456798,
+    "accountBalance": 20000,
+    "accountName": "cuenta de ahorro en pesos",
+    "ownerId": 6784,
+    "permissions": [ "depositar", "retirar", "consultar", "transferir" ]
+  },
+  {
+    "accountNumber": 123456799,
+    "accountBalance": 15000,
+    "accountName": "cuenta de ahorro en dolares",
+    "ownerId": 6784,
+    "permissions": [ "depositar", "retirar" ]
+  },
+  {
+    "accountNumber": 123456800,
+    "accountBalance": 50000,
+    "accountName": "cuenta corriente en pesos",
+    "ownerId": 6007,
+    "permissions": [ "depositar", "retirar" ]
+  }
+]
