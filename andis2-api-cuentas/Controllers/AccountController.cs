@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
+using andis2_api_cuentas.Types;
+using andis2_api_cuentas.Handlers;
 
 namespace andis2_api_cuentas.Controllers
 {
@@ -14,10 +16,12 @@ namespace andis2_api_cuentas.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountContext _context;
+        private readonly ITaskQueue _taskQueue;
 
-        public AccountController(AccountContext context)
+        public AccountController(AccountContext context, ITaskQueue queue)
         {
             _context = context;
+            _taskQueue = queue;
         }
 
         // GET: api/Account
@@ -118,37 +122,21 @@ namespace andis2_api_cuentas.Controllers
         // PUT api/accounts/:id/deposit
         // genera un endpoint para que un usuario pueda hacer depositos
          [HttpPut("{id}/deposit")]
-        public async Task<IActionResult> PutDeposit(int id, Account account, int amount)
+        public async Task<IActionResult> PutDeposit(int id, int amount)
         {
-            if (id != account.accountNumber)
-            {
+            if (!int.IsPositive(amount))
                 return BadRequest();
-            }
-            if (amount < 0){
+            if (_context.Account == null)
+                return NotFound();
+            if (!int.IsPositive(id))
                 return BadRequest();
-            }
-            
+            if (!AccountExists(id))
+                return NotFound();
 
-            _context.Entry(account).State = EntityState.Modified;
+            var taskId = Guid.NewGuid();
+            await _taskQueue.QueueTaskAsync(new AccountDeposit(taskId, id, amount));
 
-            try
-            {
-                account.accountBalance += amount;
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(taskId);
 
         }
 

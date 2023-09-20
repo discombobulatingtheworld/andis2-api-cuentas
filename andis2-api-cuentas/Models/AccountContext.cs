@@ -9,5 +9,12 @@ namespace andis2_api_cuentas.Models{
         }
 
         public DbSet<Account> Account { get; set; } = null!;
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            new AccountInitializer(modelBuilder).Seed();
+        }
     }
 }
