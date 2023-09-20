@@ -1,6 +1,10 @@
+using gRPC_andis2_api_cuentas.Models;
 using gRPC_andis2_api_cuentas.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("AccountList"));
 
 // Additional configuration is required to successfully run gRPC on macOS.
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682

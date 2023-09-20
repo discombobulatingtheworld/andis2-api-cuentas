@@ -2,12 +2,50 @@ syntax = "proto3";
 
 option csharp_namespace = "gRPC_andis2_api_cuentas";
 
-package greet;
+package greet_2;
 
-// The greeting service definition.
 service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+	rpc GetAccounts (Empty) returns (AccountList);
+	rpc GetAccount (Id) returns (Account);
+	rpc PostAccount (PostAccountInput) returns (Empty);
+	rpc PatchAccount (PatchAccountInput) returns (Empty);
+	rpc DeleteAccount (Id) returns (Empty);
+	rpc Deposit (DepositInput) returns (Empty);
+}
+
+message PostAccountInput {
+	string accountName = 3;
+	int32 ownerId = 4;
+}
+
+message PatchAccountInput {
+	int32 id = 1;
+	string name = 2;
+}
+
+message DepositInput {
+	int32 id = 1;
+	int32 amount = 2;
+}
+
+message Id {
+	int32 id = 1;
+}
+
+message AccountList {
+	repeated Account accounts = 1;
+}
+
+message Account {
+	int32 accountNumber = 1;
+	int32 accountBalance = 2;
+	string accountName = 3;
+	int32 ownerId = 4;
+	string permissions = 5;
+}
+
+message Empty {
+
 }
 
 // The request message containing the user's name.
