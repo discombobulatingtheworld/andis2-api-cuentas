@@ -35,6 +35,7 @@ namespace andis2_api_cuentas.Controllers
 
         // GET: api/Account/5
         [HttpGet("{id}")]
+        [EnableRateLimiting("sliding")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
           if (_context.Account == null)
