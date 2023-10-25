@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace andis2_api_cuentas.Controllers
 {
@@ -33,6 +34,7 @@ namespace andis2_api_cuentas.Controllers
 
         // GET: api/Account/5
         [HttpGet("{id}")]
+        [EnableRateLimiting("sliding")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
           if (_context.Account == null)
