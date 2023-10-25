@@ -22,6 +22,7 @@ namespace andis2_api_cuentas.Controllers
         }
 
         // GET: api/Account
+        [EnableRateLimiting("TBRatelimiting")]
         [HttpGet]
         [EnableRateLimiting("fixed")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccount()

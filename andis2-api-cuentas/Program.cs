@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
-using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,15 @@ builder.Services.AddRateLimiter(_ =>
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         options.QueueLimit = 0;
     });
+    _.AddTokenBucketLimiter("token", tbOptions =>
+    {
+        tbOptions.AutoReplenishment = true;
+        tbOptions.QueueLimit = 0;
+        tbOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        tbOptions.ReplenishmentPeriod = TimeSpan.FromSeconds(60);
+        tbOptions.TokensPerPeriod = 1;
+        tbOptions.TokenLimit = 3;
+    });
     _.RejectionStatusCode = 429;
 });
 
@@ -34,11 +43,7 @@ builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("Ac
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 var app = builder.Build();
-
-app.UseRateLimiter();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,5 +60,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRateLimiter();
 
 app.Run();
