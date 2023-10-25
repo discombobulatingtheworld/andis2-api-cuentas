@@ -22,7 +22,6 @@ namespace andis2_api_cuentas.Controllers
         }
 
         // GET: api/Account
-        [EnableRateLimiting("TBRatelimiting")]
         [HttpGet]
         [EnableRateLimiting("fixed")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccount()
@@ -56,6 +55,7 @@ namespace andis2_api_cuentas.Controllers
         // PATCH: api/Account/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPatch("{id}")]
+        [EnableRateLimiting("token")]
         public async Task<IActionResult> PutAccount(int id, string accountName)
         {
             Account? dbAccount = await _context.Account.FindAsync(id);
@@ -70,6 +70,7 @@ namespace andis2_api_cuentas.Controllers
         // PATCH: api/Account/5/permissions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPatch("{id}/permissions")]
+        [EnableRateLimiting("concurrencyPolicy")]
         public async Task<IActionResult> PutAccountPermissions(int id, string permissions)
         {
             var account = await _context.Account.FindAsync(id);

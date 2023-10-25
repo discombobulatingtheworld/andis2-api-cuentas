@@ -16,6 +16,7 @@ builder.Services.AddRateLimiter(_ =>
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         options.QueueLimit = 0;
     });
+
     _.AddFixedWindowLimiter("fixed", options =>
     {
         options.PermitLimit = 4;
@@ -23,6 +24,7 @@ builder.Services.AddRateLimiter(_ =>
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         options.QueueLimit = 0;
     });
+
     _.AddTokenBucketLimiter("token", tbOptions =>
     {
         tbOptions.AutoReplenishment = true;
@@ -32,17 +34,19 @@ builder.Services.AddRateLimiter(_ =>
         tbOptions.TokensPerPeriod = 1;
         tbOptions.TokenLimit = 3;
     });
-    _.RejectionStatusCode = 429;
-  _.OnRejected = async (context, token) =>
-    {
-        await context.HttpContext.Response.WriteAsync("muchas llamadas, por favor prueba mas tarde ");
-    };
+    
     _.AddConcurrencyLimiter(policyName: "concurrencyPolicy", limiterOptions =>
     {
         limiterOptions.PermitLimit = 10;
         limiterOptions.QueueLimit = 100;
         limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
     });
+
+    _.RejectionStatusCode = 429;
+    _.OnRejected = async (context, token) =>
+    {
+        await context.HttpContext.Response.WriteAsync("muchas llamadas, por favor prueba mas tarde ");
+    };
 });
 
 // Add services to the container.
