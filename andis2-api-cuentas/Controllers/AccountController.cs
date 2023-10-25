@@ -23,6 +23,7 @@ namespace andis2_api_cuentas.Controllers
 
         // GET: api/Account
         [HttpGet]
+        [EnableRateLimiting("fixed")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccount()
         {
           if (_context.Account == null)

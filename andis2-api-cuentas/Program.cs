@@ -16,6 +16,13 @@ builder.Services.AddRateLimiter(_ =>
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         options.QueueLimit = 0;
     });
+    _.AddFixedWindowLimiter("fixed", options =>
+    {
+        options.PermitLimit = 4;
+        options.Window = TimeSpan.FromSeconds(12);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 0;
+    });
     _.RejectionStatusCode = 429;
 });
 
