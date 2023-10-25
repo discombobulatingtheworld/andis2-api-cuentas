@@ -1,9 +1,49 @@
 using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
-using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Establish rate limiting.
+builder.Services.AddRateLimiter(_ =>
+{
+    _.AddSlidingWindowLimiter("sliding", options =>
+    {
+        options.PermitLimit = 3;
+        options.Window = TimeSpan.FromSeconds(12);
+        options.SegmentsPerWindow = 3;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 0;
+    });
+    _.AddFixedWindowLimiter("fixed", options =>
+    {
+        options.PermitLimit = 4;
+        options.Window = TimeSpan.FromSeconds(12);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 0;
+    });
+    _.AddTokenBucketLimiter("token", tbOptions =>
+    {
+        tbOptions.AutoReplenishment = true;
+        tbOptions.QueueLimit = 0;
+        tbOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        tbOptions.ReplenishmentPeriod = TimeSpan.FromSeconds(60);
+        tbOptions.TokensPerPeriod = 1;
+        tbOptions.TokenLimit = 3;
+    });
+    _.RejectionStatusCode = 429;
+  _.OnRejected = async (context, token) =>
+    {
+        await context.HttpContext.Response.WriteAsync("muchas llamadas, por favor prueba mas tarde ");
+    };
+    _.AddConcurrencyLimiter(policyName: "concurrencyPolicy", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.QueueLimit = 100;
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
 
 // Add services to the container.
 
@@ -12,21 +52,6 @@ builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("Ac
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddRateLimiter(options =>
-{
-    options.RejectionStatusCode = 429; // Too many request
-    options.OnRejected = async (context, token) =>
-    {
-        await context.HttpContext.Response.WriteAsync("muchas llamadas, por favor prueba mas tarde ");
-    };
-    options.AddConcurrencyLimiter(policyName: "concurrencyPolicy", limiterOptions =>
-    {
-        limiterOptions.PermitLimit = 10;
-        limiterOptions.QueueLimit = 100;
-        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-    });
-});
-
 
 
 var app = builder.Build();
@@ -41,11 +66,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseRateLimiter();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRateLimiter();
 
 app.Run();
