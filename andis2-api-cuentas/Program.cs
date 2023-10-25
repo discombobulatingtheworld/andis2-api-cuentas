@@ -33,6 +33,16 @@ builder.Services.AddRateLimiter(_ =>
         tbOptions.TokenLimit = 3;
     });
     _.RejectionStatusCode = 429;
+  _.OnRejected = async (context, token) =>
+    {
+        await context.HttpContext.Response.WriteAsync("muchas llamadas, por favor prueba mas tarde ");
+    };
+    _.AddConcurrencyLimiter(policyName: "concurrencyPolicy", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.QueueLimit = 100;
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
 });
 
 // Add services to the container.
@@ -42,6 +52,7 @@ builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("Ac
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
