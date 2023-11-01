@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,14 @@ builder.Services.AddRateLimiter(_ =>
     };
 });
 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(policy => policy
+        .Expire(TimeSpan.FromMinutes(10)));
+    options.AddPolicy("PeoplePolicy", policy => policy
+        .Expire(TimeSpan.FromMinutes(5)));
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -56,6 +65,7 @@ builder.Services.AddDbContext<AccountContext>(opt => opt.UseInMemoryDatabase("Ac
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddOutputCache();
 
 
 var app = builder.Build();
@@ -77,5 +87,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseRateLimiter();
+
+app.UseOutputCache();
 
 app.Run();
