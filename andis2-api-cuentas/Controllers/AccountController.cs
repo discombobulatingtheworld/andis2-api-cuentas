@@ -21,6 +21,13 @@ namespace andis2_api_cuentas.Controllers
             _context = context;
         }
 
+        [HttpGet("/test/cache")]
+        public async Task<ActionResult<int>> CacheTestEndpoint()
+        {
+            Thread.Sleep(5000);
+            return Ok(0);
+        }
+
         // GET: api/Account
         [HttpGet]
         [EnableRateLimiting("fixed")]
