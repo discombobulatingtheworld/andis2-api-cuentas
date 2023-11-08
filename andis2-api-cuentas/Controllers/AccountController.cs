@@ -15,10 +15,12 @@ namespace andis2_api_cuentas.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountContext _context;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(AccountContext context)
+        public AccountController(AccountContext context, [FromServices]ILogger<AccountController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Account
@@ -46,8 +48,11 @@ namespace andis2_api_cuentas.Controllers
 
             if (account == null)
             {
+                _logger.LogError("Id {id} no existe", id);
                 return NotFound();
             }
+
+            _logger.LogInformation("Funca");
 
             return account;
         }
