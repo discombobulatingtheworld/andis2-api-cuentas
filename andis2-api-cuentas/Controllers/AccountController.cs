@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace andis2_api_cuentas.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Accounts")]
     [ApiController]
     public class AccountController : ControllerBase
     {
