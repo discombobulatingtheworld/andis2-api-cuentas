@@ -2,8 +2,20 @@ using Microsoft.EntityFrameworkCore;
 using andis2_api_cuentas.Models;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Establish logging
+builder.Host.UseSerilog(
+    new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+    .WriteTo.File("logs/logs.log", restrictedToMinimumLevel: LogEventLevel.Warning)
+    .WriteTo.SQLite("logs/logs.sqlite", restrictedToMinimumLevel: LogEventLevel.Debug)
+    .CreateLogger()
+);
 
 // Establish rate limiting.
 builder.Services.AddRateLimiter(_ =>
@@ -71,6 +83,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 
